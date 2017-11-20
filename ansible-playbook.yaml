@@ -1,0 +1,30 @@
+---
+- hosts: middleout
+  become: yes
+  become_user: root
+  tasks:
+    - name: install required sw
+      apt: name={{item}} state=installed
+      with_items:
+        - cmake
+        - build-essential
+    - name: apt install libgtest-dev source code
+      apt: name=libgtest-dev
+    - name: compile gtest
+      shell: |
+        cmake .
+        make -j2
+        cp *.a /usr/lib
+      args:
+        chdir: /usr/src/gtest
+    - name: install google benchmark
+      shell: |
+        git clone https://github.com/google/benchmark.git
+        cd benchmark
+        cmake . -DCMAKE_BUILD_TYPE=Release
+        make -j2
+        make install
+      args:
+        chdir: /usr/lib
+
+
