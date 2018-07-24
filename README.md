@@ -115,7 +115,7 @@ make install
 
 
 ## License
-Please see the LICENSE.md file.
+WTFPL version 2
 
 ## References
 
